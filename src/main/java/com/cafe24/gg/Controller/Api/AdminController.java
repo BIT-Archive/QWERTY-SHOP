@@ -1,7 +1,7 @@
 package com.cafe24.gg.Controller.Api;
 
 import java.util.List;
-import java.util.Map;
+
 
 import com.cafe24.gg.DTO.JSONResult;
 import com.cafe24.gg.Service.AdminService;
@@ -10,7 +10,7 @@ import com.cafe24.gg.Vo.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController("adminAPIController")
@@ -30,8 +30,9 @@ public class AdminController{
     @RequestMapping(value="/product/add", method=RequestMethod.POST)
     public JSONResult addProduct(Product newProdcut){
 
-        adminService.addItem();
+        boolean result = adminService.addItem();
+        JSONResult json = new JSONResult(result, "inserting success", newProdcut);
 
-        return null;
+        return json;
     }
 }
