@@ -3,9 +3,13 @@ package com.cafe24.gg.Vo;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @Entity
 public class Basket{
 
