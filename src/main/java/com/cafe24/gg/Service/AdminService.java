@@ -20,4 +20,7 @@ public class AdminService{
 		return productDAO.findAll();
     }
 
+	public void addItem() {
+	}
+
 }

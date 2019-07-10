@@ -3,6 +3,7 @@ package com.cafe24.gg.Controller.Api;
 import java.util.List;
 import java.util.Map;
 
+import com.cafe24.gg.DTO.JSONResult;
 import com.cafe24.gg.Service.AdminService;
 import com.cafe24.gg.Vo.Product;
 
@@ -24,5 +25,13 @@ public class AdminController{
         List<Product> product = adminService.getProductList();
 
         return product;
+    }
+
+    @RequestMapping(value="/product/add", method=RequestMethod.POST)
+    public JSONResult addProduct(Product newProdcut){
+
+        adminService.addItem();
+
+        return null;
     }
 }
