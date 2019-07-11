@@ -1,38 +1,57 @@
 package com.cafe24.gg.Controller.Api;
 
 import java.util.List;
-
+import java.util.Optional;
 
 import com.cafe24.gg.DTO.JSONResult;
 import com.cafe24.gg.Service.AdminService;
 import com.cafe24.gg.Vo.Product;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController("adminAPIController")
 @RequestMapping("/api/admin")
-public class AdminController{
+public class AdminController {
 
     @Autowired
     private AdminService adminService;
 
-    @RequestMapping(value="/product/list", method=RequestMethod.GET)
-    public List<Product> getProductList(){
-        List<Product> product = adminService.getProductList();
+    @RequestMapping(value = "/product/list", method = RequestMethod.GET)
+    public JSONResult getProductList() {
+        List<Product> list = adminService.getProductList();
 
-        return product;
+        return JSONResult.success(list);
     }
 
-    @RequestMapping(value="/product/add", method=RequestMethod.POST)
-    public JSONResult addProduct(Product newProdcut){
+    @RequestMapping(value = "/product/add", method = RequestMethod.POST)
+    public JSONResult addProduct(@RequestBody Product newItem) {
 
-        boolean result = adminService.addItem();
-        JSONResult json = new JSONResult(result, "inserting success", newProdcut);
+        Product adddedItem = adminService.addItem(newItem);
 
-        return json;
+        return JSONResult.success(adddedItem);
+    }
+
+    // @RequestMapping(value="/product/edit", method=RequestMethod.GET)
+    // public JSONResult editProduct_GET(@RequestParam Long paramNo){
+
+    //     Optional<Product> item = adminService.getProductItem(paramNo);
+
+    //     boolean result = item.isPresent();
+    //     JSONResult json = new JSONResult(result, "Fetching success", item.get());
+
+    //     return json;
+    // }
+
+    @RequestMapping(value="/product/edit", method=RequestMethod.POST)
+    public JSONResult editProduct(@RequestBody Product paramItem){
+
+        Product editedItem = adminService.editItem(paramItem);
+
+        return JSONResult.success(editedItem);
     }
 }
