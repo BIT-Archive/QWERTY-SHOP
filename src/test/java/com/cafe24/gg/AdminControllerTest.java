@@ -1,7 +1,9 @@
 package com.cafe24.gg;
 
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -67,6 +69,11 @@ public class AdminControllerTest {
 	}
 
 	@Test
+	public void 어드민_상품_조회(){
+		// TODO
+	}
+
+	@Test
 	public void 어드민_상품_추가() throws Exception {
 		Product mockVO = new Product( null , "물품타이틀제목1", true, 1L, 100000L );
 
@@ -98,5 +105,19 @@ public class AdminControllerTest {
 		action.andExpect(jsonPath("$.data.title", is("수정된상품타이틀")));
 	}
 	
+	@Test
+	public void 어드민_상품_삭제() throws Exception{
+
+		Long paramNo = 1L;
+
+		ResultActions action = mockMVC.perform(delete("/api/admin/product/del")
+											.contentType(MediaType.APPLICATION_JSON)
+											.content(new Gson().toJson(paramNo)))
+											.andExpect(status().isOk()).andDo(print());
+
+		action.andExpect(jsonPath("$.result", is("success")));
+
+		assertFalse(adminService.getProductItem(paramNo).isPresent());
+	}
 
 }

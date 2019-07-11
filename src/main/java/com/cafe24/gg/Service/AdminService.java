@@ -26,12 +26,12 @@ public class AdminService {
 		return  newItem;
 	}
 
-	// public Optional<Product> getProductItem(Long id) {
+	public Optional<Product> getProductItem(Long id) {
 
-	// 	Optional<Product> targetItem = productDAO.findById(id);
+		Optional<Product> targetItem = productDAO.findById(id);
 
-	// 	return targetItem;
-	// }
+		return targetItem;
+	}
 
 	public Product editItem(Product paramitem) {
 		
@@ -39,6 +39,13 @@ public class AdminService {
 		targetItem.get().setTitle("수정된상품타이틀");
 		
 		productDAO.save(targetItem.get());
+
+		return targetItem.get();
+	}
+
+	public Product delItem(Long paramNo) {
+		Optional<Product> targetItem = productDAO.findById(paramNo);
+		productDAO.delete(targetItem.get());
 
 		return targetItem.get();
 	}

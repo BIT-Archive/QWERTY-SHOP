@@ -54,4 +54,12 @@ public class AdminController {
 
         return JSONResult.success(editedItem);
     }
+
+    @RequestMapping(value="/product/del", method=RequestMethod.DELETE)
+    public JSONResult deleteItem(@RequestBody Long paramNo){
+
+        Product deletedItem = adminService.delItem(paramNo);
+
+        return JSONResult.success(deletedItem);
+    }
 }
