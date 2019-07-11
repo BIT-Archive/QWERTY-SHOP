@@ -3,6 +3,8 @@ package com.cafe24.gg.Controller.Api;
 import java.util.List;
 import java.util.Optional;
 
+import javax.websocket.server.PathParam;
+
 import com.cafe24.gg.DTO.JSONResult;
 import com.cafe24.gg.Service.AdminService;
 import com.cafe24.gg.Vo.Product;
@@ -21,6 +23,13 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
+    @RequestMapping(value = "/product/read", method = RequestMethod.GET)
+    public JSONResult getProductItem(@RequestParam(value="id") String id) {
+        Optional<Product> item = adminService.getProductItem(Long.parseLong(id));
+
+        return JSONResult.success(item);
+    }
+
     @RequestMapping(value = "/product/list", method = RequestMethod.GET)
     public JSONResult getProductList() {
         List<Product> list = adminService.getProductList();
@@ -36,21 +45,10 @@ public class AdminController {
         return JSONResult.success(adddedItem);
     }
 
-    // @RequestMapping(value="/product/edit", method=RequestMethod.GET)
-    // public JSONResult editProduct_GET(@RequestParam Long paramNo){
-
-    //     Optional<Product> item = adminService.getProductItem(paramNo);
-
-    //     boolean result = item.isPresent();
-    //     JSONResult json = new JSONResult(result, "Fetching success", item.get());
-
-    //     return json;
-    // }
-
     @RequestMapping(value="/product/edit", method=RequestMethod.POST)
     public JSONResult editProduct(@RequestBody Product paramItem){
 
-        Product editedItem = adminService.editItem(paramItem);
+        Optional<Product> editedItem = adminService.editItem(paramItem);
 
         return JSONResult.success(editedItem);
     }
@@ -58,7 +56,7 @@ public class AdminController {
     @RequestMapping(value="/product/del", method=RequestMethod.DELETE)
     public JSONResult deleteItem(@RequestBody Long paramNo){
 
-        Product deletedItem = adminService.delItem(paramNo);
+        Optional<Product> deletedItem = adminService.delItem(paramNo);
 
         return JSONResult.success(deletedItem);
     }

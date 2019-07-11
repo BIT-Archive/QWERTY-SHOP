@@ -33,21 +33,21 @@ public class AdminService {
 		return targetItem;
 	}
 
-	public Product editItem(Product paramitem) {
+	public Optional<Product> editItem(Product paramitem) {
 		
 		Optional<Product> targetItem = productDAO.findById(paramitem.getProduct_id());
 		targetItem.get().setTitle("수정된상품타이틀");
 		
 		productDAO.save(targetItem.get());
 
-		return targetItem.get();
+		return targetItem;
 	}
 
-	public Product delItem(Long paramNo) {
+	public Optional<Product> delItem(Long paramNo) {
 		Optional<Product> targetItem = productDAO.findById(paramNo);
 		productDAO.delete(targetItem.get());
 
-		return targetItem.get();
+		return targetItem;
 	}
 
 }

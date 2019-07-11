@@ -1,22 +1,25 @@
 package com.cafe24.gg;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.mockito.ArgumentMatchers.isNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 import com.cafe24.gg.Service.AdminService;
 import com.cafe24.gg.Vo.Product;
 import com.google.gson.Gson;
 
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -30,6 +33,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AdminControllerTest {
 
 	private MockMvc mockMVC;
@@ -41,40 +45,47 @@ public class AdminControllerTest {
 	@Autowired
 	public AdminService adminService;
 
-
-	@Test
- 	public void contextLoads() {
-	}
-
 	@Before
 	public void setup(){
 		mockMVC = MockMvcBuilders.webAppContextSetup(context)
 								.build();
 
-		Product first = new Product( null , "더미데이터 삽입", true, 1234L, 1582937L );
+		Product first = new Product( null , "테스트용 삽입", true, 1234L, 1582937L );
 		adminService.addItem(first);
 		
 		
 	}
 
+
 	@Test
-	public void 어드민_서비스(){
+ 	public void _0contextLoads() {
+	}
+
+	@Test
+	public void _1어드민_서비스(){
 		assertNotNull(adminService);
 	}
 
 	@Test 
-  	public void 어드민_상품_리스트_조회() throws Exception {
-		mockMVC.perform(get("/api/admin/product/list"))
-		.andExpect(status().isOk()).andDo(print());
+  	public void _2어드민_상품_리스트_조회() throws Exception {
+	
+		ResultActions action =mockMVC.perform(get("/api/admin/product/list"))
+								.andExpect(status().isOk()).andDo(print());
+		
 	}
 
 	@Test
-	public void 어드민_상품_조회(){
-		// TODO
+	public void _3어드민_상품_조회() throws Exception {
+		
+		ResultActions action = mockMVC.perform(get("/api/admin/product/read")
+												.param("id", "1"))
+												.andExpect(status().isOk()).andDo(print());
+
+		action.andExpect(jsonPath("$.result", is("success")));
 	}
 
 	@Test
-	public void 어드민_상품_추가() throws Exception {
+	public void _4어드민_상품_추가() throws Exception {
 		Product mockVO = new Product( null , "물품타이틀제목1", true, 1L, 100000L );
 
 		ResultActions action = mockMVC.perform(post("/api/admin/product/add")
@@ -87,7 +98,7 @@ public class AdminControllerTest {
 	}
 
 	@Test
-	public void 어드민_상품_수정() throws Exception {
+	public void _5어드민_상품_수정() throws Exception {
 		// Long paramNo = 1L;
 		// Product mock = adminService.getProductItem(paramNo).get();
 		// assertTrue(mock.isPresent());
@@ -106,7 +117,7 @@ public class AdminControllerTest {
 	}
 	
 	@Test
-	public void 어드민_상품_삭제() throws Exception{
+	public void _6어드민_상품_삭제() throws Exception{
 
 		Long paramNo = 1L;
 
