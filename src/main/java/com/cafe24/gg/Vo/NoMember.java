@@ -1,7 +1,11 @@
 package com.cafe24.gg.Vo;
 
+import java.sql.Blob;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,18 +17,19 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Basket{
+@Table(name="[nomember]")
+public class NoMember {
 
     @Id
-    private String product_id;
-
-    private String id;
-
     private String email;
 
-    private String detail_id;
+    private Blob phone;
 
-    private int amount;
+    private Blob name;
+
+    private Blob password;
+
+
+
     
-
 }

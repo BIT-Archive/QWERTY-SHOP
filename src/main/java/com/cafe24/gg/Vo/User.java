@@ -15,7 +15,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Member{
+public class User{
 
     @Id
     private String id;

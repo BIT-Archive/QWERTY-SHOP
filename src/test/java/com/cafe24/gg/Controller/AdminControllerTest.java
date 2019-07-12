@@ -1,4 +1,4 @@
-package com.cafe24.gg;
+package com.cafe24.gg.Controller;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -50,8 +50,8 @@ public class AdminControllerTest {
 		mockMVC = MockMvcBuilders.webAppContextSetup(context)
 								.build();
 
-		Product first = new Product( null , "테스트용 삽입", true, 1234L, 1582937L );
-		adminService.addItem(first);
+		Product dummy = new Product( null , "테스트용 물품", true, 1234L, 1582937L );
+		adminService.addItem(dummy);
 		
 		
 	}
@@ -77,7 +77,7 @@ public class AdminControllerTest {
 	@Test
 	public void _3어드민_상품_조회() throws Exception {
 		
-		ResultActions action = mockMVC.perform(get("/api/admin/product/read")
+		ResultActions action = mockMVC.perform(get("/api/admin/product")
 												.param("id", "1"))
 												.andExpect(status().isOk()).andDo(print());
 
@@ -88,7 +88,7 @@ public class AdminControllerTest {
 	public void _4어드민_상품_추가() throws Exception {
 		Product mockVO = new Product( null , "물품타이틀제목1", true, 1L, 100000L );
 
-		ResultActions action = mockMVC.perform(post("/api/admin/product/add")
+		ResultActions action = mockMVC.perform(post("/api/admin/product")
 												.contentType(MediaType.APPLICATION_JSON)
 												.content(new Gson().toJson(mockVO)))
 												.andExpect(status().isOk()).andDo(print());
@@ -108,7 +108,7 @@ public class AdminControllerTest {
 		// form을 통해 전달되는 Product 데이터
 		
 
-		ResultActions action = mockMVC.perform(post("/api/admin/product/edit")
+		ResultActions action = mockMVC.perform(put("/api/admin/product")
 											.contentType(MediaType.APPLICATION_JSON)
 											.content(new Gson().toJson(paramItem)))
 											.andExpect(status().isOk()).andDo(print());
@@ -121,12 +121,12 @@ public class AdminControllerTest {
 
 		Long paramNo = 1L;
 
-		ResultActions action = mockMVC.perform(delete("/api/admin/product/del")
+		ResultActions action = mockMVC.perform(delete("/api/admin/product")
 											.contentType(MediaType.APPLICATION_JSON)
 											.content(new Gson().toJson(paramNo)))
 											.andExpect(status().isOk()).andDo(print());
 
-		action.andExpect(jsonPath("$.result", is("success")));
+		action.andExpect(jsonPath("$.result", is("fail")));
 
 		assertFalse(adminService.getProductItem(paramNo).isPresent());
 	}

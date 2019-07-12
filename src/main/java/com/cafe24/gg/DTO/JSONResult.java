@@ -13,7 +13,12 @@ public class JSONResult {
 	}
 
 	public static JSONResult fail(String message) {
-		return new JSONResult("fail", message, null);
+		return new JSONResult("fail", new Object() {}.getClass().getEnclosingMethod().getName()+"실패", null);
+	}
+
+	public static JSONResult result(boolean result, Object object){
+		
+		return result == true ? success(object) : fail(new Object() {}.getClass().getEnclosingMethod().getName()+"실패");
 	}
 	
 	private JSONResult(String result, String message, Object data) {
